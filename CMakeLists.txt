@@ -16,7 +16,7 @@ target_sources(args PRIVATE src/args.cpp)
 target_compile_options(args
         PRIVATE
             $<$<OR:$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:GNU>>: -Wall -Wextra -Wpedantic>)
-target_compile_features(args PRIVATE cxx_std_11)
+target_compile_features(args PRIVATE cxx_std_17)
 
 ##############################################
 # Installation instructions
