@@ -1,0 +1,11 @@
+get_filename_component(ARGS_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+include(CMakeFindDependencyMacro)
+
+list(APPEND CMAKE_MODULE_PATH ${ARGS_CMAKE_DIR})
+list(REMOVE_AT CMAKE_MODULE_PATH -1)
+
+if(NOT TARGET args)
+    include("${ARGS_CMAKE_DIR}/ArgsTargets.cmake")
+endif()
+
+set(ARGS_lIBRARIES args)
