@@ -19,17 +19,6 @@ jobs:
       matrix:
         config:
           - {
-            name: "Windows Latest MSVC",
-            os: windows-latest,
-            artifact: "windows_msvc.7z",
-            build_type: "Release",
-            cc: "cl",
-            cxx: "cl",
-            environment_script: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/Auxiliary/Build/vcvars64.bat",
-            archiver: "7z a",
-            generators: "Visual Studio 16 2019"
-          }
-          - {
             name: "Windows Latest MinGW",
             os: windows-latest,
             artifact: "windows_mingw.7z",
@@ -71,7 +60,6 @@ jobs:
           }
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Print env
@@ -161,11 +149,12 @@ jobs:
         run: |
           ls -laR
           ${{ matrix.config.archiver }} ../${{ matrix.config.artifact }} .
+
       - name: Upload
         uses: actions/upload-artifact@v1
         with:
           path: ./${{ matrix.config.artifact }}
-          name: ${{ matrix.config.artifact }}
+          name: args-${{ matrix.config.artifact }}
 
       - name: Upload release asset
         if: github.event_name == 'release' && (github.event.action == 'published' || github.event.action == 'created')
@@ -175,5 +164,5 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ./${{ matrix.config.artifact }}
-          asset_name: ${{ matrix.config.artifact }}.zip
+          asset_name: args-${{ matrix.config.artifact }}.zip
           asset_content_type: application/zip
