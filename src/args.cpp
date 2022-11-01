@@ -140,7 +140,7 @@ bool cargs::register_switch_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kSwitch});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kSwitch, {}});
     return true;
 }
 
@@ -156,7 +156,7 @@ bool cargs::register_number_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kNumber});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kNumber, {}});
     return true;
 }
 
@@ -172,7 +172,7 @@ bool cargs::register_float_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kFloat});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kFloat, {}});
     return true;
 }
 
@@ -188,7 +188,7 @@ bool cargs::register_string_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kString});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kString, {}});
     return true;
 }
 
