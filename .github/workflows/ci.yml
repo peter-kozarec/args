@@ -28,7 +28,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-              actions/upload-artifact@v2
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -41,6 +40,7 @@ jobs:
         run: ctest -C ${{env.BUILD_TYPE}}
 
       - name: Pack-source
+        uses: actions/upload-artifact@v2
         run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
              cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
              cpack --config ${{github.workspace}}/build/CPackSourceConfig.cmake
@@ -49,6 +49,7 @@ jobs:
           path: ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
 
       - name: Pack-build
+        uses: actions/upload-artifact@v2
         run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
           cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
           cpack --config ${{github.workspace}}/build/CPackConfig.cmake
