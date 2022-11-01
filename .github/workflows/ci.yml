@@ -40,8 +40,8 @@ jobs:
         run: ctest -C ${{env.BUILD_TYPE}}
 
       - name: Pack-source
-        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
-             cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
+        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source &
+             cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source &
              cpack --config ${{github.workspace}}/build/CPackSourceConfig.cmake
 
       - name: Pack-source-artifact
@@ -52,9 +52,9 @@ jobs:
 
       - name: Pack-build
 
-        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
-          cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
-          cpack --config ${{github.workspace}}/build/CPackConfig.cmake
+        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}} &
+             cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}} &
+             cpack --config ${{github.workspace}}/build/CPackConfig.cmake
 
       - name: Pack-build-artifact
         uses: actions/upload-artifact@v2
