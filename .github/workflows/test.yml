@@ -11,30 +11,20 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os.host }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os:
-          - name: freebsd
-            architecture: x86-64
-            version: '13.0'
-            host: macos-12
+        os: [ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            target: Linux
 
-          - name: openbsd
-            architecture: x86-64
-            version: '7.1'
-            host: macos-12
+          - os: macos-latest
+            target: Macos
 
-          - name: openbsd
-            architecture: arm64
-            version: '7.1'
-            host: ubuntu-latest
-
-          - name: netbsd
-            architecture: x86-64
-            version: '9.2'
-            host: ubuntu-latest
+          - os: windows-latest
+            target: Windows
 
     steps:
       - uses: actions/checkout@v3
