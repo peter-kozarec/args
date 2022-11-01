@@ -22,10 +22,10 @@ public:
     static bool test_parse();
     static bool test_contains();
     static bool test_count();
-    static bool get_bool_value();
-    static bool get_number_value();
-    static bool get_float_value();
-    static bool get_string_value();
+    static bool test_get_bool_value();
+    static bool test_get_number_value();
+    static bool test_get_float_value();
+    static bool test_get_string_value();
 
 private:
     static bool test_valid_parse_args();
@@ -67,24 +67,24 @@ TEST(Args_Test, test_count)
     ASSERT_TRUE(cargs_test::test_count());
 }
 
-TEST(Args_Test, get_bool_value)
+TEST(Args_Test, test_get_bool_value)
 {
-    ASSERT_TRUE(cargs_test::get_bool_value());
+    ASSERT_TRUE(cargs_test::test_get_bool_value());
 }
 
-TEST(Args_Test, get_number_value)
+TEST(Args_Test, test_get_number_value)
 {
-    ASSERT_TRUE(cargs_test::get_number_value());
+    ASSERT_TRUE(cargs_test::test_get_number_value());
 }
 
-TEST(Args_Test, get_float_value)
+TEST(Args_Test, test_get_float_value)
 {
-    ASSERT_TRUE(cargs_test::get_float_value());
+    ASSERT_TRUE(cargs_test::test_get_float_value());
 }
 
-TEST(Args_Test, get_string_value)
+TEST(Args_Test, test_get_string_value)
 {
-    ASSERT_TRUE(cargs_test::get_string_value());
+    ASSERT_TRUE(cargs_test::test_get_string_value());
 }
 
 #endif // ARGS_TEST_HPP

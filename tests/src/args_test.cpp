@@ -7,20 +7,19 @@ bool cargs_test::test_register_switch_arg()
     const std::string abbreviation = "t";
     const std::string name = "test";
     const std::string description = "test description";
-    args.register_switch_arg(abbreviation, name, description);
 
-    for (const auto &arg : args.args_)
-    {
-        if (arg.abbreviation == abbreviation &&
-            arg.name == name &&
-            arg.description == description &&
-            arg.type == cargs::arg_type_def::kSwitch)
-        {
-            return true;
-        }
-    }
+    args.register_switch_arg(abbreviation,
+                             name,
+                             description);
 
-    return false;
+    return std::find_if(args.args_.begin(), args.args_.end(),
+                        [&](const cargs::arg &arg)
+                        {
+                            return arg.abbreviation == abbreviation &&
+                                arg.name == name &&
+                                arg.description == description &&
+                                arg.type == cargs::arg_type_def::kSwitch;
+                        }) != args.args_.end();
 }
 
 bool cargs_test::test_register_number_arg()
@@ -30,20 +29,19 @@ bool cargs_test::test_register_number_arg()
     const std::string abbreviation = "t";
     const std::string name = "test";
     const std::string description = "test description";
-    args.register_number_arg(abbreviation, name, description);
 
-    for (const auto &arg : args.args_)
-    {
-        if (arg.abbreviation == abbreviation &&
-            arg.name == name &&
-            arg.description == description &&
-            arg.type == cargs::arg_type_def::kNumber)
-        {
-            return true;
-        }
-    }
+    args.register_number_arg(abbreviation,
+                             name,
+                             description);
 
-    return false;
+    return std::find_if(args.args_.begin(), args.args_.end(),
+                        [&](const cargs::arg &arg)
+                        {
+                            return arg.abbreviation == abbreviation &&
+                                arg.name == name &&
+                                arg.description == description &&
+                                arg.type == cargs::arg_type_def::kNumber;
+                        }) != args.args_.end();
 }
 
 bool cargs_test::test_register_float_arg()
@@ -53,20 +51,19 @@ bool cargs_test::test_register_float_arg()
     const std::string abbreviation = "t";
     const std::string name = "test";
     const std::string description = "test description";
-    args.register_float_arg(abbreviation, name, description);
 
-    for (const auto &arg : args.args_)
-    {
-        if (arg.abbreviation == abbreviation &&
-            arg.name == name &&
-            arg.description == description &&
-            arg.type == cargs::arg_type_def::kFloat)
-        {
-            return true;
-        }
-    }
+    args.register_float_arg(abbreviation,
+                            name,
+                            description);
 
-    return false;
+    return std::find_if(args.args_.begin(), args.args_.end(),
+                        [&](const cargs::arg &arg)
+                        {
+                            return arg.abbreviation == abbreviation &&
+                                arg.name == name &&
+                                arg.description == description &&
+                                arg.type == cargs::arg_type_def::kFloat;
+                        }) != args.args_.end();
 }
 
 bool cargs_test::test_register_string_arg()
@@ -76,20 +73,19 @@ bool cargs_test::test_register_string_arg()
     const std::string abbreviation = "t";
     const std::string name = "test";
     const std::string description = "test description";
-    args.register_string_arg(abbreviation, name, description);
 
-    for (const auto &arg : args.args_)
-    {
-        if (arg.abbreviation == abbreviation &&
-            arg.name == name &&
-            arg.description == description &&
-            arg.type == cargs::arg_type_def::kString)
-        {
-            return true;
-        }
-    }
+    args.register_string_arg(abbreviation,
+                             name,
+                             description);
 
-    return false;
+    return std::find_if(args.args_.begin(), args.args_.end(),
+                        [&](const cargs::arg &arg)
+                        {
+                            return arg.abbreviation == abbreviation &&
+                                arg.name == name &&
+                                arg.description == description &&
+                                arg.type == cargs::arg_type_def::kString;
+                        }) != args.args_.end();
 }
 
 bool cargs_test::test_parse()
@@ -118,37 +114,37 @@ bool cargs_test::test_count()
 {
     cargs args;
 
-    // Switch arg
     const std::string switch_abbreviation = "s";
     const std::string switch_name = "switch";
     const std::string switch_description = "switch description";
+
     args.args_.push_back({switch_abbreviation,
                           switch_name,
                           switch_description,
                           cargs::arg_type::kSwitch});
 
-    // Number arg
     const std::string number_abbreviation = "n";
     const std::string number_name = "number";
     const std::string number_description = "number description";
+
     args.args_.push_back({number_abbreviation,
                           number_name,
                           number_description,
                           cargs::arg_type::kNumber});
 
-    // Double arg
     const std::string double_abbreviation = "d";
     const std::string double_name = "double";
     const std::string double_description = "double description";
+
     args.args_.push_back({double_abbreviation,
                           double_name,
                           double_description,
                           cargs::arg_type::kFloat});
 
-    // String arg
     const std::string string_abbreviation = "t";
     const std::string string_name = "text";
     const std::string string_description = "text description";
+
     args.args_.push_back({string_abbreviation,
                           string_name,
                           string_description,
@@ -157,7 +153,7 @@ bool cargs_test::test_count()
     return args.count() == 4;
 }
 
-bool cargs_test::get_bool_value()
+bool cargs_test::test_get_bool_value()
 {
     cargs args;
 
@@ -176,7 +172,7 @@ bool cargs_test::get_bool_value()
     return args.get_value(switch_name, value) && value;
 }
 
-bool cargs_test::get_number_value()
+bool cargs_test::test_get_number_value()
 {
     cargs args;
 
@@ -195,7 +191,7 @@ bool cargs_test::get_number_value()
     return args.get_value(number_name, value) && value == number_value;
 }
 
-bool cargs_test::get_float_value()
+bool cargs_test::test_get_float_value()
 {
     cargs args;
 
@@ -214,7 +210,7 @@ bool cargs_test::get_float_value()
     return args.get_value(double_name, value) && value == double_value;
 }
 
-bool cargs_test::get_string_value()
+bool cargs_test::test_get_string_value()
 {
     cargs args;
 
@@ -237,41 +233,45 @@ bool cargs_test::test_valid_parse_args()
 {
     cargs args;
 
-    // Switch arg
     const std::string switch_abbreviation = "s";
     const std::string switch_name = "switch";
     const std::string switch_description = "switch description";
+
     args.args_.push_back({switch_abbreviation,
                           switch_name,
                           switch_description,
-                          cargs::arg_type::kSwitch});
+                          cargs::arg_type::kSwitch,
+                          {}});
 
-    // Number arg
     const std::string number_abbreviation = "n";
     const std::string number_name = "number";
     const std::string number_description = "number description";
+
     args.args_.push_back({number_abbreviation,
                           number_name,
                           number_description,
-                          cargs::arg_type::kNumber});
+                          cargs::arg_type::kNumber,
+                          {}});
 
-    // Float arg
     const std::string double_abbreviation = "d";
     const std::string double_name = "double";
     const std::string double_description = "double description";
+
     args.args_.push_back({double_abbreviation,
                           double_name,
                           double_description,
-                          cargs::arg_type::kFloat});
+                          cargs::arg_type::kFloat,
+                          {}});
 
-    // String arg
     const std::string string_abbreviation = "t";
     const std::string string_name = "text";
     const std::string string_description = "text description";
+
     args.args_.push_back({string_abbreviation,
                           string_name,
                           string_description,
-                          cargs::arg_type::kString});
+                          cargs::arg_type::kString,
+                          {}});
 
     const int argc = 8;
     char **argv = new char *[argc];
