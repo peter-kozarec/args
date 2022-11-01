@@ -66,7 +66,10 @@ public:
     [[nodiscard]] bool get_value(const std::string &name, std::string &val) const;
 
 private:
-    [[nodiscard]] std::list<arg>::const_iterator find(const std::string &name) const;
+    [[nodiscard]] bool register_arg(const std::string &abbreviation,
+                                    const std::string &name,
+                                    const std::string &description,
+                                    arg_type type);
 };
 
 #endif // ARGS_HPP

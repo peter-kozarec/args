@@ -1,6 +1,7 @@
 #include "args.hpp"
 #include <cstring>
 #include <stdexcept>
+#include <algorithm>
 
 cargs::cargs(const cargs &other)
 {
@@ -135,68 +136,40 @@ bool cargs::register_switch_arg(const std::string &abbreviation,
                                 const std::string &name,
                                 const std::string &description)
 {
-    for (const auto &arg : args_)
-    {
-        if (arg.abbreviation == abbreviation || arg.name == name)
-        {
-            return false;
-        }
-    }
-
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kSwitch,
-                           {}});
-    return true;
+    return register_arg(abbreviation,
+                        name,
+                        description,
+                        arg_type_def::kSwitch);
 }
 
 bool cargs::register_number_arg(const std::string &abbreviation,
                                 const std::string &name,
                                 const std::string &description)
 {
-    for (const auto &arg : args_)
-    {
-        if (arg.abbreviation == abbreviation || arg.name == name)
-        {
-            return false;
-        }
-    }
-
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kNumber,
-                           {}});
-    return true;
+    return register_arg(abbreviation,
+                        name,
+                        description,
+                        arg_type_def::kNumber);
 }
 
 bool cargs::register_float_arg(const std::string &abbreviation,
                                const std::string &name,
                                const std::string &description)
 {
-    for (const auto &arg : args_)
-    {
-        if (arg.abbreviation == abbreviation || arg.name == name)
-        {
-            return false;
-        }
-    }
-
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kFloat,
-                           {}});
-    return true;
+    return register_arg(abbreviation,
+                        name,
+                        description,
+                        arg_type_def::kFloat);
 }
 
 bool cargs::register_string_arg(const std::string &abbreviation,
                                 const std::string &name,
                                 const std::string &description)
 {
-    for (const auto &arg : args_)
-    {
-        if (arg.abbreviation == abbreviation || arg.name == name)
-        {
-            return false;
-        }
-    }
-
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kString,
-                           {}});
-    return true;
+    return register_arg(abbreviation,
+                        name,
+                        description,
+                        arg_type_def::kString);
 }
 
 size_t cargs::count() const
@@ -219,7 +192,12 @@ bool cargs::contains(const std::string &name) const
 
 bool cargs::get_value(const std::string &name, bool &val) const
 {
-    const auto it = find(name);
+    const auto it = std::find_if(args_.begin(), args_.end(),
+                                 [&](const arg_def &arg)
+                                 {
+                                     return arg.abbreviation == name ||
+                                         arg.name == name;
+                                 });
 
     if (it != args_.end() && it->type == arg_type_def::kSwitch)
     {
@@ -232,7 +210,12 @@ bool cargs::get_value(const std::string &name, bool &val) const
 
 bool cargs::get_value(const std::string &name, int &val) const
 {
-    const auto it = find(name);
+    const auto it = std::find_if(args_.begin(), args_.end(),
+                                 [&](const arg_def &arg)
+                                 {
+                                     return arg.abbreviation == name ||
+                                         arg.name == name;
+                                 });
 
     if (it != args_.end() && it->type == arg_type_def::kNumber)
     {
@@ -248,7 +231,12 @@ bool cargs::get_value(const std::string &name, int &val) const
 
 bool cargs::get_value(const std::string &name, float &val) const
 {
-    const auto it = find(name);
+    const auto it = std::find_if(args_.begin(), args_.end(),
+                                 [&](const arg_def &arg)
+                                 {
+                                     return arg.abbreviation == name ||
+                                         arg.name == name;
+                                 });
 
     if (it != args_.end() && it->type == arg_type_def::kFloat)
     {
@@ -264,7 +252,12 @@ bool cargs::get_value(const std::string &name, float &val) const
 
 bool cargs::get_value(const std::string &name, std::string &val) const
 {
-    const auto it = find(name);
+    const auto it = std::find_if(args_.begin(), args_.end(),
+                                 [&](const arg_def &arg)
+                                 {
+                                    return arg.abbreviation == name ||
+                                           arg.name == name;
+                                 });
 
     if (it != args_.end() && it->type == arg_type_def::kString)
     {
@@ -278,20 +271,23 @@ bool cargs::get_value(const std::string &name, std::string &val) const
     return false;
 }
 
-std::list<cargs::arg>::const_iterator cargs::find(const std::string &name) const
+bool cargs::register_arg(const std::string &abbreviation,
+                         const std::string &name,
+                         const std::string &description,
+                         cargs::arg_type type)
 {
-    auto it = args_.begin();
-
-    while (it != args_.end())
+    for (const auto &arg : args_)
     {
-        if (it->abbreviation == name ||
-            it->name == name)
+        if (arg.abbreviation == abbreviation || arg.name == name)
         {
-            return it;
+            return false;
         }
-
-        ++it;
     }
 
-    return it;
+    args_.emplace_back(arg{abbreviation,
+                           name,
+                           description,
+                           type,
+                           {}});
+    return true;
 }
