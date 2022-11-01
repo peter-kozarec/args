@@ -9,4 +9,10 @@ target_compile_features(args_test PRIVATE cxx_auto_type)
 target_link_libraries(args_test gtest_main args)
 target_include_directories(args_test PRIVATE include)
 
+set_target_properties(args_test
+        PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+            LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}"
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
+
 add_test(NAME args_test COMMAND args_test)
