@@ -4,6 +4,9 @@ if(NOT GTEST_FOUND)
     include(${CMAKE_SOURCE_DIR}/cmake/FetchGoogleTest.cmake)
 endif()
 
+option(INSTALL_GMOCK "Install Googletest's GMock?" OFF)
+option(INSTALL_GTEST "Install Googletest's GTest?" OFF)
+
 add_executable(args_test src/args_test.cpp)
 target_compile_features(args_test PRIVATE cxx_std_17)
 target_link_libraries(args_test gtest_main args)

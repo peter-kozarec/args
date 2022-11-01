@@ -92,4 +92,11 @@ export(PACKAGE args)
 ##############################################
 ## Add test
 enable_testing()
+# Replace install() to do-nothing macro.
+macro(install)
+endmacro()
 add_subdirectory(tests)
+# Restore original install() behavior.
+macro(install)
+    _install(${ARGN})
+endmacro()
