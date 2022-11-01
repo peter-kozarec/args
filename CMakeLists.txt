@@ -69,4 +69,4 @@ export(PACKAGE args)
 ##############################################
 ## Add test
 enable_testing()
-add_subdirectory(tests EXCLUDE_FROM_ALL)
+add_subdirectory(tests)
