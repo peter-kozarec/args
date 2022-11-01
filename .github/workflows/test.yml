@@ -11,8 +11,34 @@ env:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os.host }}
 
+    strategy:
+      matrix:
+        os:
+          - name: freebsd
+            architecture: x86-64
+            version: '13.0'
+            host: macos-12
+
+          - name: openbsd
+            architecture: x86-64
+            version: '7.1'
+            host: macos-12
+
+          - name: openbsd
+            architecture: arm64
+            version: '7.1'
+            host: ubuntu-latest
+
+          - name: netbsd
+            architecture: x86-64
+            version: '9.2'
+            host: ubuntu-latest
+
+          - name: windows
+            architecture: x86-64
+            host: windows-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -20,7 +46,7 @@ jobs:
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
       - name: Build
-        run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+        run: cmake --build . --target args args_test --config ${{env.BUILD_TYPE}}
 
       - name: Test
         working-directory: ${{github.workspace}}/build
