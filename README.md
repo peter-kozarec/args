@@ -1,7 +1,7 @@
 [![ci](https://github.com/peter-kozarec/args/actions/workflows/ci.yml/badge.svg)](https://github.com/peter-kozarec/args/actions/workflows/ci.yml)
 
 # ARGS
-Argument parsing library
+Argument parsing library (in development)
 
 ## Requirement
 You'll need:
