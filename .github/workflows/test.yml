@@ -36,9 +36,6 @@ jobs:
             version: '9.2'
             host: ubuntu-latest
 
-          - name: windows
-            architecture: x86-64
-            host: windows-latest
     steps:
       - uses: actions/checkout@v3
 
