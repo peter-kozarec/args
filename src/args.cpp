@@ -66,12 +66,11 @@ bool cargs::parse(int argc, char **argv, std::string &err_text)
             std::string input_arg(&argv[i][pos], len);
 
             if (arg.abbreviation == input_arg ||
-                arg.name         == input_arg )
+                arg.name == input_arg)
             {
-                switch(arg.type)
+                switch (arg.type)
                 {
-                    case arg_type_def::kSwitch:
-                        arg.value = true;
+                    case arg_type_def::kSwitch:arg.value = true;
                         break;
                     case arg_type_def::kNumber:
                         try
@@ -81,13 +80,15 @@ bool cargs::parse(int argc, char **argv, std::string &err_text)
                         }
                         catch (std::invalid_argument const &e)
                         {
-                            err_text.append("Unable to parse application arguments\n");
+                            err_text.append(
+                                "Unable to parse application arguments\n");
                             err_text.append(e.what());
                             return false;
                         }
                         catch (std::out_of_range const &e)
                         {
-                            err_text.append("Unable to parse application arguments\n");
+                            err_text.append(
+                                "Unable to parse application arguments\n");
                             err_text.append(e.what());
                             return false;
                         }
@@ -100,24 +101,26 @@ bool cargs::parse(int argc, char **argv, std::string &err_text)
                         }
                         catch (std::invalid_argument const &e)
                         {
-                            err_text.append("Unable to parse application arguments\n");
+                            err_text.append(
+                                "Unable to parse application arguments\n");
                             err_text.append(e.what());
                             return false;
                         }
                         catch (std::out_of_range const &e)
                         {
-                            err_text.append("Unable to parse application arguments\n");
+                            err_text.append(
+                                "Unable to parse application arguments\n");
                             err_text.append(e.what());
                             return false;
                         }
                         break;
-                    case arg_type_def::kString:
-                        ++i;
+                    case arg_type_def::kString:++i;
                         arg.value = std::string(argv[i]);
                         break;
 
                     default:
-                        err_text.append("Unable to parse application arguments\n");
+                        err_text.append(
+                            "Unable to parse application arguments\n");
                         err_text.append("Reason is invalid argument type \n");
                         return false;
                 }
@@ -140,7 +143,8 @@ bool cargs::register_switch_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kSwitch, {}});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kSwitch,
+                           {}});
     return true;
 }
 
@@ -156,7 +160,8 @@ bool cargs::register_number_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kNumber, {}});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kNumber,
+                           {}});
     return true;
 }
 
@@ -172,7 +177,8 @@ bool cargs::register_float_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kFloat, {}});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kFloat,
+                           {}});
     return true;
 }
 
@@ -188,7 +194,8 @@ bool cargs::register_string_arg(const std::string &abbreviation,
         }
     }
 
-    args_.emplace_back(arg{abbreviation, name, description, arg_type::kString, {}});
+    args_.emplace_back(arg{abbreviation, name, description, arg_type::kString,
+                           {}});
     return true;
 }
 

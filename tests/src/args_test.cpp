@@ -1,6 +1,5 @@
 #include "args_test.hpp"
 
-
 bool cargs_test::test_register_switch_arg()
 {
     cargs args;
@@ -13,8 +12,8 @@ bool cargs_test::test_register_switch_arg()
     for (const auto &arg : args.args_)
     {
         if (arg.abbreviation == abbreviation &&
-            arg.name == name                 &&
-            arg.description == description   &&
+            arg.name == name &&
+            arg.description == description &&
             arg.type == cargs::arg_type_def::kSwitch)
         {
             return true;
@@ -36,8 +35,8 @@ bool cargs_test::test_register_number_arg()
     for (const auto &arg : args.args_)
     {
         if (arg.abbreviation == abbreviation &&
-            arg.name == name                 &&
-            arg.description == description   &&
+            arg.name == name &&
+            arg.description == description &&
             arg.type == cargs::arg_type_def::kNumber)
         {
             return true;
@@ -59,8 +58,8 @@ bool cargs_test::test_register_float_arg()
     for (const auto &arg : args.args_)
     {
         if (arg.abbreviation == abbreviation &&
-            arg.name == name                 &&
-            arg.description == description   &&
+            arg.name == name &&
+            arg.description == description &&
             arg.type == cargs::arg_type_def::kFloat)
         {
             return true;
@@ -82,8 +81,8 @@ bool cargs_test::test_register_string_arg()
     for (const auto &arg : args.args_)
     {
         if (arg.abbreviation == abbreviation &&
-            arg.name == name                 &&
-            arg.description == description   &&
+            arg.name == name &&
+            arg.description == description &&
             arg.type == cargs::arg_type_def::kString)
         {
             return true;
@@ -275,7 +274,7 @@ bool cargs_test::test_valid_parse_args()
                           cargs::arg_type::kString});
 
     const int argc = 8;
-    char **argv = new char*[argc];
+    char **argv = new char *[argc];
 
     argv[0] = new char[1];
     strcpy(argv[0], "");
@@ -298,50 +297,56 @@ bool cargs_test::test_valid_parse_args()
     bool result = args.parse(argc, argv, err_msg);
 
     result &= std::find_if(args.args_.begin(), args.args_.end(),
-                           [&](const cargs::arg &arg){
-        return arg.abbreviation == switch_abbreviation      &&
-               arg.name == switch_name                      &&
-               arg.description == switch_description        &&
-               arg.type == cargs::arg_type_def::kSwitch     &&
-               arg.value.has_value()                        &&
-               arg.value;
-    }) != args.args_.end();
+                           [&](const cargs::arg &arg)
+                           {
+                               return arg.abbreviation == switch_abbreviation &&
+                                   arg.name == switch_name &&
+                                   arg.description == switch_description &&
+                                   arg.type == cargs::arg_type_def::kSwitch &&
+                                   arg.value.has_value() &&
+                                   arg.value;
+                           }) != args.args_.end();
 
     result &= std::find_if(args.args_.begin(), args.args_.end(),
-                           [&](const cargs::arg &arg){
-        return arg.abbreviation == number_abbreviation      &&
-               arg.name == number_name                      &&
-               arg.description == number_description        &&
-               arg.type == cargs::arg_type_def::kNumber     &&
-               arg.value.has_value()                        &&
-               std::any_cast<int>(arg.value.value()) == 5;
-    }) != args.args_.end();
+                           [&](const cargs::arg &arg)
+                           {
+                               return arg.abbreviation == number_abbreviation &&
+                                   arg.name == number_name &&
+                                   arg.description == number_description &&
+                                   arg.type == cargs::arg_type_def::kNumber &&
+                                   arg.value.has_value() &&
+                                   std::any_cast<int>(arg.value.value()) == 5;
+                           }) != args.args_.end();
 
     result &= std::find_if(args.args_.begin(), args.args_.end(),
-                           [&](const cargs::arg &arg){
-        return arg.abbreviation == double_abbreviation      &&
-               arg.name == double_name                      &&
-               arg.description == double_description        &&
-               arg.type == cargs::arg_type_def::kFloat     &&
-               arg.value.has_value()                        &&
-               std::any_cast<float>(arg.value.value()) == 3.9f;
-    }) != args.args_.end();
+                           [&](const cargs::arg &arg)
+                           {
+                               return arg.abbreviation == double_abbreviation &&
+                                   arg.name == double_name &&
+                                   arg.description == double_description &&
+                                   arg.type == cargs::arg_type_def::kFloat &&
+                                   arg.value.has_value() &&
+                                   std::any_cast<float>(arg.value.value())
+                                       == 3.9f;
+                           }) != args.args_.end();
 
     result &= std::find_if(args.args_.begin(), args.args_.end(),
-                           [&](const cargs::arg &arg){
-        return arg.abbreviation == string_abbreviation      &&
-               arg.name == string_name                      &&
-               arg.description == string_description        &&
-               arg.type == cargs::arg_type_def::kString     &&
-               arg.value.has_value()                        &&
-               std::any_cast<std::string>(arg.value.value()) == "test";
-    }) != args.args_.end();
+                           [&](const cargs::arg &arg)
+                           {
+                               return arg.abbreviation == string_abbreviation &&
+                                   arg.name == string_name &&
+                                   arg.description == string_description &&
+                                   arg.type == cargs::arg_type_def::kString &&
+                                   arg.value.has_value() &&
+                                   std::any_cast<std::string>(arg.value.value())
+                                       == "test";
+                           }) != args.args_.end();
 
     for (auto i = 0; i < argc; i++)
     {
-        delete [] argv[i];
+        delete[] argv[i];
     }
-    delete [] argv;
+    delete[] argv;
 
     return result;
 }
