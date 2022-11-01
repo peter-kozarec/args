@@ -58,7 +58,7 @@ bool cargs::parse(int argc, char **argv, std::string &err_text)
         if (!len)
         {
             err_text.append("Unable to parse application arguments\n");
-            err_text.append("Reason is invalid length \n");
+            err_text.append("Reason - invalid length \n");
             return false;
         }
 
@@ -66,65 +66,48 @@ bool cargs::parse(int argc, char **argv, std::string &err_text)
         {
             std::string input_arg(&argv[i][pos], len);
 
-            if (arg.abbreviation == input_arg ||
-                arg.name == input_arg)
+            if (arg.abbreviation != input_arg &&
+                arg.name != input_arg)
             {
-                switch (arg.type)
-                {
-                    case arg_type_def::kSwitch:arg.value = true;
-                        break;
-                    case arg_type_def::kNumber:
-                        try
-                        {
-                            ++i;
-                            arg.value = std::stoi(argv[i]);
-                        }
-                        catch (std::invalid_argument const &e)
-                        {
-                            err_text.append(
-                                "Unable to parse application arguments\n");
-                            err_text.append(e.what());
-                            return false;
-                        }
-                        catch (std::out_of_range const &e)
-                        {
-                            err_text.append(
-                                "Unable to parse application arguments\n");
-                            err_text.append(e.what());
-                            return false;
-                        }
-                        break;
-                    case arg_type_def::kFloat:
-                        try
-                        {
-                            ++i;
-                            arg.value = std::stof(argv[i]);
-                        }
-                        catch (std::invalid_argument const &e)
-                        {
-                            err_text.append(
-                                "Unable to parse application arguments\n");
-                            err_text.append(e.what());
-                            return false;
-                        }
-                        catch (std::out_of_range const &e)
-                        {
-                            err_text.append(
-                                "Unable to parse application arguments\n");
-                            err_text.append(e.what());
-                            return false;
-                        }
-                        break;
-                    case arg_type_def::kString:++i;
-                        arg.value = std::string(argv[i]);
-                        break;
+                continue;
+            }
 
-                    default:
-                        err_text.append(
-                            "Unable to parse application arguments\n");
-                        err_text.append("Reason is invalid argument type \n");
+            switch (arg.type)
+            {
+                case arg_type_def::kSwitch:arg.value = true;
+                    break;
+                case arg_type_def::kNumber:
+                    ++i;
+                    int number_val;
+                    if (!char_conv(argv[i],
+                                   strlen(argv[i]),
+                                   number_val))
+                    {
+                        err_text.append("Unable to parse argument.\n");
                         return false;
-                }
+                    }
+                    arg.value = number_val;
+                    break;
+                case arg_type_def::kFloat:
+                    ++i;
+                    float float_val;
+                    if (!char_conv(argv[i],
+                                   strlen(argv[i]),
+                                   float_val))
+                    {
+                        err_text.append("Unable to parse argument.\n");
+                        return false;
+                    }
+                    arg.value = float_val;
+                    break;
+                case arg_type_def::kString:
+                    ++i;
+                    arg.value = std::string(argv[i]);
+                    break;
+
+                default:
+                    err_text.append("Unable to parse application arguments\n");
+                    return false;
             }
         }
     }
@@ -290,4 +273,40 @@ bool cargs::register_arg(const std::string &abbreviation,
                            type,
                            {}});
     return true;
+}
+
+bool cargs::char_conv(const char *str, size_t len, int &out)
+{
+    if (!str || !len)
+    {
+        return false;
+    }
+
+    try
+    {
+        out = std::stoi(std::string(str, len));
+        return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
+}
+
+bool cargs::char_conv(const char *str, size_t len, float &out)
+{
+    if (!str || !len)
+    {
+        return false;
+    }
+
+    try
+    {
+        out = std::stof(std::string(str, len));
+        return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
 }

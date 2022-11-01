@@ -70,6 +70,9 @@ private:
                                     const std::string &name,
                                     const std::string &description,
                                     arg_type type);
+
+    [[nodiscard]] static bool char_conv(const char *str, size_t len, int &out);
+    [[nodiscard]] static bool char_conv(const char *str, size_t len, float &out);
 };
 
 #endif // ARGS_HPP
