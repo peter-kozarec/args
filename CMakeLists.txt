@@ -16,11 +16,13 @@ if(GIT_EXECUTABLE)
 endif()
 
 if(NOT DEFINED ARGS_VERSION)
-    set(ARGS_VERSION 0.0.1)
+    set(ARGS_VERSION v0.0.1)
     message(WARNING "Failed to determine ARGS_VERSION from Git tags. Using default version \"${ARGS_VERSION}\".")
 endif()
 
-project(args VERSION ${ARGS_VERSION} LANGUAGES CXX)
+string(REPLACE v "" ARGS_VERSION_DEF ${ARGS_VERSION})
+
+project(args VERSION ${ARGS_VERSION_DEF} LANGUAGES CXX)
 
 ##############################################
 ## Add library
