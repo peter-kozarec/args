@@ -1,6 +1,6 @@
 [![ci](https://github.com/peter-kozarec/args/actions/workflows/ci.yml/badge.svg)](https://github.com/peter-kozarec/args/actions/workflows/ci.yml)
 
-# Introduction
+# ARGS
 Argument parsing library
 
 ## Requirement
@@ -36,7 +36,7 @@ target_include_libraries(${TARGET} PRIVATE args)
 int main(int argc, char **argv)
 {
     cargs args;
-    args.register_number_arg("-n", "number", "test number");
+    args.register_number_arg("n", "number", "test number");
     
     if (args.parse(argc, argv))
     {
