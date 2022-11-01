@@ -1,5 +1,26 @@
 cmake_minimum_required(VERSION 3.19)
-project(args VERSION 0.0.1 LANGUAGES CXX)
+
+if(GIT_EXECUTABLE)
+    get_filename_component(SRC_DIR ${SRC} DIRECTORY)
+    # Generate a git-describe version string from Git repository tags
+    execute_process(
+            COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --match "v*"
+            WORKING_DIRECTORY ${SRC_DIR}
+            OUTPUT_VARIABLE GIT_DESCRIBE_VERSION
+            RESULT_VARIABLE GIT_DESCRIBE_ERROR_CODE
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    if(NOT GIT_DESCRIBE_ERROR_CODE)
+        set(ARGS_VERSION ${GIT_DESCRIBE_VERSION})
+    endif()
+endif()
+
+if(NOT DEFINED ARGS_VERSION)
+    set(ARGS_VERSION 0.0.1)
+    message(WARNING "Failed to determine ARGS_VERSION from Git tags. Using default version \"${ARGS_VERSION}\".")
+endif()
+
+project(args VERSION ${ARGS_VERSION} LANGUAGES CXX)
 
 ##############################################
 ## Add library
