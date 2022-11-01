@@ -1,4 +1,4 @@
-name: test
+name: ci
 
 on:
   push:
@@ -28,6 +28,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+              actions/upload-artifact@v2
 
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
@@ -40,9 +41,17 @@ jobs:
         run: ctest -C ${{env.BUILD_TYPE}}
 
       - name: Pack-source
-        working-directory: ${{github.workspace}}/build
-        run: cpack --config CPackSourceConfig.cmake
+        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
+             cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
+             cpack --config ${{github.workspace}}/build/CPackSourceConfig.cmake
+        with:
+          name: args_${{matrix.os}}_${{env.BUILD_TYPE}}_source
+          path: ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
 
       - name: Pack-build
-        working-directory: ${{github.workspace}}/build
-        run: cpack --config CPackConfig.cmake
+        run: mkdir ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
+          cd ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
+          cpack --config ${{github.workspace}}/build/CPackConfig.cmake
+        with:
+          name: args_${{matrix.os}}_${{env.BUILD_TYPE}}
+          path: ${{github.workspace}}/args_${{matrix.os}}_${{env.BUILD_TYPE}}
